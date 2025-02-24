@@ -5,9 +5,15 @@
 
 trigger:
 - main
+- development
 
 pool:
   vmImage: ubuntu-latest
+
+parameters:
+  - name: environmentName
+    type: string
+    default: windows-latest
 
 stages:
  - stage: "Build"
@@ -15,6 +21,7 @@ stages:
       - job: Build
         steps:
         - task: NodeTool@0
+          displayName: ${{parameters.environmentName}}
           inputs:
             versionSource: 'spec'
             versionSpec: '16.x'
@@ -41,7 +48,7 @@ stages:
             artifact: 'drop'
             publishLocation: 'pipeline'
           displayName: 'Publish Pipeline Artifact' 
-      
+
 
  - stage: Deploy
    jobs:
