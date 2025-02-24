@@ -41,6 +41,20 @@ stages:
             artifact: 'drop'
             publishLocation: 'pipeline'
           displayName: 'Publish Pipeline Artifact' 
+      
+
+ - stage: Deploy
+   jobs:
+     - job: Build
+       steps:
+         - task: AzureRmWebAppDeployment@5
+           inputs:
+             ConnectionType: 'AzureRM'
+             azureSubscription: 'Free Trial(1280e451-1849-47f6-949e-8bcc6acd2598)'
+             appType: 'webAppLinux'
+             WebAppName: 'webapp1234'
+             packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+             DeploymentTypeLinux: 'oneDeploy'
 
 
 
