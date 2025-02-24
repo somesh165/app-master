@@ -53,7 +53,7 @@ stages:
  - stage: Deploy
    displayName: DeployDev
    jobs:
-    - deployment: Deploy
+    - deployment: DownloadArtiface
       environment: 'Dev-environment'
       workspace:
         clean: all
