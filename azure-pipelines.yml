@@ -1,0 +1,46 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+ - stage: "Build"
+   jobs:
+      - job: Build
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSource: 'spec'
+            versionSpec: '16.x'
+        
+        - task: Npm@1
+          inputs:
+            command: 'install'
+        
+        - task: Npm@1
+          inputs:
+            command: 'custom'
+            customCommand: 'run build'
+        
+        - task: CopyFiles@2
+          displayName: CopyFile
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)/build'
+            Contents: '**'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)/build'
+        
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(Build.ArtifactStagingDirectory)'
+            artifact: 'drop'
+            publishLocation: 'pipeline'
+          displayName: 'Publish Pipeline Artifact' 
+
+
+
