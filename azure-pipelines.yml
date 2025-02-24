@@ -51,10 +51,10 @@ stages:
 
 
  - stage: Deploy
+   displayName: DeployDev
    jobs:
     - deployment: Deploy
-      displayName: Deploy Dev
-      environment: 'dev'
+      environment: 'Dev-environment'
       workspace:
         clean: all
       strategy:
@@ -68,7 +68,7 @@ stages:
                 buildType: current
                 artifactName: drop
                 targetPath: $(Build.SourcesDirectory)
-    - job: Build
+    - job: Deploy
       steps:
         - task: AzureRmWebAppDeployment@5
           inputs:
@@ -78,6 +78,9 @@ stages:
             WebAppName: 'webapp1234'
             packageForLinux: '$(Build.SourcesDirectory)/build'
             DeploymentTypeLinux: 'oneDeploy'
+        
+        
+        
 
 
 
